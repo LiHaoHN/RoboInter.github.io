@@ -1,0 +1,149 @@
+/* ===================== Global / Reset ===================== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html,body { height: 100%; }
+body {
+  background: #000;               /* 必须是纯黑 */
+  color: #fff;                    /* 全文白色 */
+  font-family: Inter, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.45;
+}
+
+/* ===================== NAV ===================== */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(0,0,0,0.85);
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  z-index: 150;
+}
+.nav-inner {
+  max-width: 80vw; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 0;
+}
+.logo { color: #fff; font-weight: 700; letter-spacing: 0.4px; }
+.nav-links a {
+  color: #ddd; text-decoration: none; margin-left: 20px; font-size: 0.95rem;
+  transition: color .18s ease, text-shadow .18s ease;
+}
+.nav-links a:hover { color: #fff; text-shadow: 0 0 8px rgba(255,255,255,0.12); }
+
+/* ===================== HERO ===================== */
+.hero {
+  height: 72vh;
+  display: flex; align-items: center; justify-content: center;
+  background-size: cover; background-position: center;
+  padding-top: 60px;    /* leave space for fixed nav */
+}
+.hero-inner { text-align:center; padding: 20px; max-width:80vw; }
+.hero-inner h1 {
+  font-size: 1.8rem; color: #fff; font-weight: 700;
+  text-shadow: 0 0 10px rgba(255,255,255,0.06);
+}
+
+/* ===================== LAYOUT: content wrapper 80% ===================== */
+.section { padding: 80px 0; }
+.content-wrapper { max-width: 80vw; margin: 0 auto; }
+
+/* ===================== SECTION TITLE ===================== */
+.section-title {
+  font-size: 2.4rem; margin-bottom: 28px; color: #fff;
+  text-align: center;
+}
+
+/* ===================== PRODUCT CARD / IMAGE ===================== */
+.product-card {
+  background: rgba(255,255,255,0.02);
+  border-radius: 18px;
+  padding: 28px;
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+  transition: transform .35s ease, box-shadow .35s ease;
+  text-align: center;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.6);
+}
+
+/* product image */
+.product-img {
+  width: 100%;
+  max-width: 900px;      /* image maximum inside the 0.8vw container */
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: 8px auto 16px auto;
+  cursor: pointer;
+  transition: transform .35s ease, box-shadow .35s ease, filter .35s ease;
+  box-shadow: 0 8px 22px rgba(255,255,255,0.06);
+}
+.product-img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 30px 80px rgba(255,255,255,0.08);
+  filter: saturate(1.05);
+}
+
+/* product title / desc */
+.product-title { font-size: 1.25rem; margin-top: 6px; color: #fff; }
+.product-desc { color: #ddd; margin-top: 8px; }
+
+/* ===================== FEATURES GRID ===================== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  align-items: start;
+  margin-top: 18px;
+}
+.feature-box {
+  background: rgba(255,255,255,0.015);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+.feature-box img { height: 56px; margin-bottom: 12px; filter: brightness(1.05); }
+
+/* ===================== VIDEO ===================== */
+.video-wrap { display:flex; justify-content:center; margin-top: 16px; }
+video { max-width: 900px; width: 100%; border-radius: 12px; box-shadow: 0 12px 40px rgba(255,255,255,0.03); }
+
+/* ===================== LIGHTBOX / ZOOM ===================== */
+#zoom-overlay {
+  display: none;               /* shown by JS */
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.92);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 9999;
+}
+#zoom-container { position: relative; max-width: 100vw; max-height: 96vh; padding: 12px; }
+#zoom-img {
+  max-width: 100vw; max-height: 96vh; border-radius: 10px;
+  box-shadow: 0 30px 90px rgba(0,0,0,0.6);
+  animation: zoomIn .28s ease both;
+}
+#zoom-close {
+  position: absolute; top: -42px; right: -6px; background: transparent; border: none;
+  color: #fff; font-size: 30px; cursor: pointer; padding: 6px;
+}
+
+/* ===================== ANIMATION / FADE ===================== */
+@keyframes zoomIn { from { transform: scale(.86); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+
+.fade-section { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
+.fade-in { opacity: 1; transform: translateY(0); }
+
+/* ===================== FOOTER ===================== */
+footer { padding: 36px 0; color: #ddd; text-align:center; }
+
+/* Responsive tweaks */
+@media (max-width: 900px) {
+  .nav-inner, .content-wrapper { max-width: 94vw; }
+  .section-title { font-size: 1.6rem; }
+  .product-img { max-width: 100%; border-radius: 10px; }
+  .hero-inner h1 { font-size: 1.2rem; }
+}

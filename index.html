@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RoboInter - Interaction-Centric Annotation for Robotic Manipulation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 30px;
+        }
+
+        nav ul li a {
+            color: #555;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 15px;
+        }
+
+        nav ul li a:hover {
+            color: #2563eb;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            text-align: center;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: #fff;
+            font-weight: 800;
+        }
+
+        .hero h1 span {
+            color: #fbbf24;
+        }
+
+        .hero .subtitle {
+            font-size: 1.4rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+
+        .hero .authors {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #fff;
+            color: #2563eb;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        .btn-outline:hover {
+            background-color: #fff;
+            color: #2563eb;
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-light {
+            background-color: #fff;
+        }
+
+        .section-gray {
+            background-color: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .section-title p {
+            color: #6b7280;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        /* Abstract Section */
+        .abstract-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: justify;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #4b5563;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .feature-card p {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        /* Annotation Types */
+        .annotation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .annotation-card {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 12px;
+            padding: 25px;
+            border-left: 4px solid #2563eb;
+        }
+
+        .annotation-card h4 {
+            color: #1e40af;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .annotation-card p {
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+
+        /* Statistics Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        /* Image Display */
+        .image-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .image-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Video Container */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Dataset Cards */
+        .dataset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .dataset-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e5e7eb;
+        }
+
+        .dataset-card-header {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            padding: 20px;
+            color: #fff;
+        }
+
+        .dataset-card-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .dataset-card-header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .dataset-card-content {
+            padding: 25px;
+        }
+
+        .dataset-card-content ul {
+            list-style: none;
+        }
+
+        .dataset-card-content li {
+            padding: 8px 0;
+            color: #4b5563;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dataset-card-content li i {
+            color: #2563eb;
+        }
+
+        /* Citation */
+        .citation-box {
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .citation-box pre {
+            color: #e5e7eb;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #374151;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .copy-btn:hover {
+            background: #4b5563;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1f2937;
+            padding: 40px 0;
+            text-align: center;
+            color: #9ca3af;
+        }
+
+        footer a {
+            color: #60a5fa;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+
+            nav ul {
+                display: none;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <span>RoboInter</span>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#abstract">Abstract</a></li>
+                        <li><a href="#annotations">Annotations</a></li>
+                        <li><a href="#datasets">Datasets</a></li>
+                        <li><a href="#statistics">Statistics</a></li>
+                        <li><a href="#citation">Citation</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1><span>RoboInter</span>: Interaction-Centric Spatial Annotation for Robotic Manipulation</h1>
+                <p class="subtitle">
+                    A comprehensive framework for annotating fine-grained spatial interactions in robotic manipulation datasets
+                </p>
+                <p class="authors">
+                    Anonymous Authors
+                </p>
+                <div class="btn-group">
+                    <a href="https://arxiv.org" target="_blank" class="btn">
+                        <i class="fas fa-file-pdf"></i> Paper
+                    </a>
+                    <a href="https://github.com/InternRobotics/RoboInter" target="_blank" class="btn">
+                        <i class="fab fa-github"></i> Code
+                    </a>
+                    <a href="https://huggingface.co/datasets/InternRobotics/RoboInter-Data" target="_blank" class="btn btn-outline">
+                        <i class="fas fa-database"></i> RoboInter-Data
+                    </a>
+                    <a href="https://huggingface.co/datasets/InternRobotics/RoboInter-VQA" target="_blank" class="btn btn-outline">
+                        <i class="fas fa-question-circle"></i> RoboInter-VQA
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Abstract Section -->
+    <section id="abstract" class="section section-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Abstract</h2>
+            </div>
+            <div class="abstract-content">
+                <p>
+                    Understanding and predicting spatial interactions between robots, objects, and environments is crucial for robotic manipulation.
+                    We introduce <strong>RoboInter</strong>, an interaction-centric annotation framework that provides comprehensive spatial annotations
+                    for robotic manipulation datasets. Our framework captures fine-grained details including object bounding boxes, gripper states,
+                    contact points, trajectory predictions, affordance regions, and placement proposals.
+                </p>
+                <br>
+                <p>
+                    Built upon real-world datasets including <strong>DROID</strong> and <strong>RH20T</strong>, RoboInter provides rich annotations
+                    that enable training vision-language models for robotic understanding and generation tasks. We also release <strong>RoboInter-VQA</strong>,
+                    a visual question answering benchmark for evaluating spatial reasoning capabilities in robotic contexts.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teaser Video -->
+    <section class="section section-gray">
+        <div class="container">
+            <div class="section-title">
+                <h2>Overview</h2>
+                <p>RoboInter provides comprehensive spatial annotations for robotic manipulation</p>
+            </div>
+            <div class="video-container">
+                <video autoplay muted loop playsinline>
+                    <source src="videos/teaser/teaser.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- Annotation Types -->
+    <section id="annotations" class="section section-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Annotation Types</h2>
+                <p>Comprehensive spatial annotations for understanding robot-object interactions</p>
+            </div>
+            <div class="annotation-grid">
+                <div class="annotation-card">
+                    <h4><i class="fas fa-vector-square"></i> Object Bounding Box</h4>
+                    <p>Precise localization of target objects and their spatial extents in the scene</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-hand-paper"></i> Gripper Detection</h4>
+                    <p>Robot gripper state and position tracking throughout manipulation</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-crosshairs"></i> Contact Points</h4>
+                    <p>Fine-grained contact locations between gripper and objects</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-route"></i> Trajectory Prediction</h4>
+                    <p>Future motion trajectory of the end-effector</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-bullseye"></i> Affordance Regions</h4>
+                    <p>Object regions suitable for grasping and manipulation</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-map-marker-alt"></i> Placement Proposals</h4>
+                    <p>Suggested target locations for object placement</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-project-diagram"></i> Segmentation</h4>
+                    <p>Semantic segmentation of objects and scene elements</p>
+                </div>
+                <div class="annotation-card">
+                    <h4><i class="fas fa-tasks"></i> Subtask & Skills</h4>
+                    <p>Hierarchical task decomposition and primitive skill labels</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section section-gray">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Features</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>Scene Understanding</h3>
+                    <p>Rich annotations enable comprehensive understanding of manipulation scenes including objects, spatial relationships, and robot states</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cube"></i>
+                    </div>
+                    <h3>Spatial Generation</h3>
+                    <p>Support training models to generate spatial outputs like bounding boxes, trajectories, and contact points</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Task Planning</h3>
+                    <p>Hierarchical annotations support learning task decomposition and primitive skill sequences</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Datasets Section -->
+    <section id="datasets" class="section section-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Datasets</h2>
+                <p>Two complementary datasets for training and evaluation</p>
+            </div>
+            <div class="dataset-grid">
+                <div class="dataset-card">
+                    <div class="dataset-card-header">
+                        <h3>RoboInter-Data</h3>
+                        <p>Annotated Manipulation Dataset</p>
+                    </div>
+                    <div class="dataset-card-content">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Based on DROID and RH20T</li>
+                            <li><i class="fas fa-check"></i> Frame-level spatial annotations</li>
+                            <li><i class="fas fa-check"></i> Quality-controlled annotations</li>
+                            <li><i class="fas fa-check"></i> Multiple annotation types</li>
+                            <li><i class="fas fa-check"></i> Train/Val splits provided</li>
+                        </ul>
+                        <a href="https://huggingface.co/datasets/InternRobotics/RoboInter-Data" target="_blank" class="btn" style="margin-top: 20px; width: 100%; justify-content: center;">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+                <div class="dataset-card">
+                    <div class="dataset-card-header">
+                        <h3>RoboInter-VQA</h3>
+                        <p>Visual Question Answering Benchmark</p>
+                    </div>
+                    <div class="dataset-card-content">
+                        <ul>
+                            <li><i class="fas fa-check"></i> Understanding tasks (6 types)</li>
+                            <li><i class="fas fa-check"></i> Generation tasks (6 types)</li>
+                            <li><i class="fas fa-check"></i> Task planning evaluation</li>
+                            <li><i class="fas fa-check"></i> Multiple output formats</li>
+                            <li><i class="fas fa-check"></i> Comprehensive benchmarking</li>
+                        </ul>
+                        <a href="https://huggingface.co/datasets/InternRobotics/RoboInter-VQA" target="_blank" class="btn" style="margin-top: 20px; width: 100%; justify-content: center;">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section id="statistics" class="section section-gray">
+        <div class="container">
+            <div class="section-title">
+                <h2>Dataset Statistics</h2>
+            </div>
+            <div class="image-container">
+                <img src="images/stats.png" alt="Dataset Statistics" style="cursor: pointer;" onclick="openModal(this.src)">
+            </div>
+        </div>
+    </section>
+
+    <!-- VQA Tasks -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>VQA Task Categories</h2>
+                <p>Comprehensive evaluation across understanding, generation, and planning</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Understanding</h3>
+                    <p>Grounding choice, trajectory choice, trajectory direction, trajectory-language matching, contact decision, grasp pose choice</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-pencil-ruler"></i>
+                    </div>
+                    <h3>Generation</h3>
+                    <p>Object box, gripper box, contact box, final box, contact point, trajectory prediction</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sitemap"></i>
+                    </div>
+                    <h3>Task Planning</h3>
+                    <p>Task planning with choice, decision, and free-form planning formats</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Citation Section -->
+    <section id="citation" class="section section-gray">
+        <div class="container">
+            <div class="section-title">
+                <h2>Citation</h2>
+            </div>
+            <div class="citation-box">
+                <button class="copy-btn" onclick="copyBibtex()">
+                    <i class="fas fa-copy"></i> Copy
+                </button>
+                <pre>
+@article{robointer2025,
+  title={RoboInter: Interaction-Centric Spatial Annotation for Robotic Manipulation},
+  author={Anonymous},
+  journal={arXiv preprint},
+  year={2025}
+}</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>RoboInter &copy; 2025 | <a href="https://github.com/InternRobotics/RoboInter" target="_blank">GitHub</a> | <a href="https://huggingface.co/InternRobotics" target="_blank">Hugging Face</a></p>
+        </div>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="imageModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.9); justify-content: center; align-items: center;">
+        <span style="position: absolute; top: 20px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer;" onclick="closeModal()">&times;</span>
+        <img id="modalImage" style="max-width: 90%; max-height: 90%; border-radius: 8px;">
+    </div>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Header background on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+            }
+        });
+
+        // Image modal
+        function openModal(src) {
+            document.getElementById('imageModal').style.display = 'flex';
+            document.getElementById('modalImage').src = src;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Copy bibtex
+        function copyBibtex() {
+            const bibtex = document.querySelector('.citation-box pre').textContent;
+            navigator.clipboard.writeText(bibtex).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
